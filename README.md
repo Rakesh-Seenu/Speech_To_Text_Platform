@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## Demo
-https://github.com/user-attachments/assets/c5e3d646-6e30-43c2-a171-a74122d1299c
+https://github.com/user-attachments/assets/1f9ff73e-77cf-466f-9c52-ca5e393e68a2
 
 ## 🎯 Problem Statement
 
