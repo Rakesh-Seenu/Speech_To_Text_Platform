@@ -11,20 +11,19 @@ sequenceDiagram
     actor User
     participant Frontend as index.html/recorder.js
     participant Flask as app.py
-    participant GroqAPI
+    participant API
     participant FileProcessor
-    participant PDFGenerator
+    participant text Generator
 
     User ->> Frontend: Upload/Record Audio
     Frontend ->> Flask: POST /transcribe (audio file)
     Flask ->> FileProcessor: Handle File, Extract Audio/Text
     FileProcessor -->> Flask: Text/Transcription
-    Flask ->> GroqAPI: Whisper transcription (LLM)
+    Flask ->> API: Whisper transcription (LLM)
     GroqAPI -->> Flask: Transcribed Text
-    Flask ->> PDFGenerator: Generate PDF (optional)
-    PDFGenerator -->> Flask: PDF Download Link
-    Flask -->> Frontend: Return Text (+ PDF link if requested)
-    Frontend -->> User: Show Transcription/Download PDF
+    Flask ->> Flask: Text Generator
+    Flask -->> Frontend: Return Text 
+    Frontend -->> User: Show Transcription
 ```
 
 ## Demo
