@@ -4,6 +4,29 @@
 [![Flask](https://img.shields.io/badge/Flask-2.0%2B-green)](https://flask.palletsprojects.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+## Flow
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Frontend as index.html/recorder.js
+    participant Flask as app.py
+    participant GroqAPI
+    participant FileProcessor
+    participant PDFGenerator
+
+    User ->> Frontend: Upload/Record Audio
+    Frontend ->> Flask: POST /transcribe (audio file)
+    Flask ->> FileProcessor: Handle File, Extract Audio/Text
+    FileProcessor -->> Flask: Text/Transcription
+    Flask ->> GroqAPI: Whisper transcription (LLM)
+    GroqAPI -->> Flask: Transcribed Text
+    Flask ->> PDFGenerator: Generate PDF (optional)
+    PDFGenerator -->> Flask: PDF Download Link
+    Flask -->> Frontend: Return Text (+ PDF link if requested)
+    Frontend -->> User: Show Transcription/Download PDF
+```
+
 ## Demo
 https://github.com/user-attachments/assets/1f9ff73e-77cf-466f-9c52-ca5e393e68a2
 
