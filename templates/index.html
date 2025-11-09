@@ -1,0 +1,590 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>VoiceScript AI - Instant Speech to Text</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root {
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --bg-color: #f8fafc;
+      --text-color: #1e293b;
+      --border-color: #e2e8f0;
+      --accent-bg: #ffffff;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --gradient-start: #6366f1;
+      --gradient-end: #8b5cf6;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Arial;
+      padding: 1.5rem;
+      margin: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 4rem 1rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+      border-radius: 24px;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      opacity: 0.05;
+      z-index: -1;
+    }
+
+    .description {
+      color: #6b7280;
+      margin: 1.5rem auto 0;
+      font-size: 1.25rem;
+      max-width: 700px;
+      line-height: 1.8;
+      text-align: center;
+      font-weight: 400;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      background: linear-gradient(to right, var(--primary-color), #8b5cf6);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .description {
+      color: #64748b;
+      margin-bottom: 3rem;
+      font-size: 1.125rem;
+      max-width: 600px;
+    }
+
+    .card {
+      background: var(--accent-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-header h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: var(--text-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-header h3 i {
+      color: var(--primary-color);
+      font-size: 1.125rem;
+    }
+
+    .api-key-card {
+      border: 2px solid var(--border-color);
+      background: linear-gradient(to bottom, #ffffff, #f8fafc);
+    }
+
+    .api-key-input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .api-input {
+      flex: 1;
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      color: var(--text-color);
+      background: white;
+      transition: all 0.2s ease;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    .api-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .api-key-help {
+      font-size: 0.875rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+    }
+
+    .api-key-help a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .api-key-help a:hover {
+      text-decoration: underline;
+    }
+
+    .secondary-button {
+      background: white;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      padding: 0.875rem 1.5rem;
+    }
+
+    .secondary-button:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .icon-button {
+      background: white;
+      color: #64748b;
+      border: 1px solid var(--border-color);
+      padding: 0.875rem;
+      border-radius: 8px;
+    }
+
+    .icon-button:hover {
+      background: #f8fafc;
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+      box-shadow: var(--shadow-sm);
+    }
+
+    button i {
+      font-size: 1.125rem;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    .status {
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      background: #f1f5f9;
+      font-size: 0.875rem;
+      color: #475569;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .status.recording {
+      background: #fef2f2;
+      color: #991b1b;
+      border-color: #fecaca;
+    }
+
+    .status.recording i {
+      color: #dc2626;
+      animation: pulse 2s infinite;
+    }
+
+    .status.success {
+      background: #f0fdf4;
+      color: #166534;
+      border-color: #bbf7d0;
+    }
+
+    .status.success i {
+      color: #22c55e;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .file-input-wrapper {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      position: relative;
+    }
+
+    input[type="file"] {
+      background: white;
+      border: 2px dashed var(--border-color);
+      padding: 1.5rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    input[type="file"]:hover {
+      border-color: var(--primary-color);
+      background: #f8fafc;
+    }
+
+    #segments {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .transcription-header {
+      font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.125rem;
+    }
+
+    .transcription-header i {
+      color: var(--primary-color);
+    }
+
+    .transcription-text {
+      white-space: pre-wrap;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+      color: #334155;
+      font-size: 1.125rem;
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .json-response {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      box-shadow: var(--shadow-md);
+    }
+
+    .json-response::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .json-response::-webkit-scrollbar-track {
+      background: #334155;
+      border-radius: 4px;
+    }
+
+    .json-response::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 4px;
+    }
+
+    .json-response::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+
+    .result-card {
+      background: linear-gradient(to bottom, #ffffff, #f8fafc);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .right-column {
+        position: static;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .container {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .button-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .file-input-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      input[type="file"] {
+        max-width: 100%;
+      }
+      
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .description {
+        font-size: 1.125rem;
+        padding: 0 1rem;
+      }
+    }
+
+    /* Animation for status changes */
+    .status {
+      transition: all 0.3s ease;
+    }
+
+    /* Loading animation */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .fa-spin {
+      animation: spin 1s linear infinite;
+    }
+
+    /* Nice transition for cards */
+    .card {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .left-column .card:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .right-column .card {
+      animation-delay: 0.2s;
+    }
+
+    /* Enhanced transcription area */
+    .result-card #segments {
+      min-height: 400px;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .result-card .transcription-text {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: var(--text-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>VoiceScript AI</h1>
+      <p class="description">Experience instant, accurate speech-to-text transformation<br>powered by Groq AI technology</p>
+    </header>
+
+    <main class="main-content">
+      <div class="left-column">
+        <div class="card api-key-card">
+          <div class="card-header">
+            <h3><i class="fas fa-key"></i> Groq API Configuration</h3>
+          </div>
+          <div class="api-key-input-wrapper">
+            <div class="input-group">
+              <input type="password" id="apiKeyInput" placeholder="Enter your Groq API key" class="api-input" />
+              <button id="saveApiKey" class="secondary-button">
+                <i class="fas fa-save"></i> Save API Key
+              </button>
+              <button id="showApiKey" class="icon-button">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <p class="api-key-help">
+              <i class="fas fa-info-circle"></i>
+              Get your API key from <a href="https://console.groq.com/" target="_blank" rel="noopener">Groq Console</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-microphone-alt"></i> Voice Recorder</h3>
+          </div>
+          <div class="button-group">
+            <button id="startBtn">
+              <i class="fas fa-microphone"></i> Start Recording
+            </button>
+            <button id="stopBtn" disabled>
+              <i class="fas fa-stop-circle"></i> Stop & Upload
+            </button>
+            <span class="status" id="recStatus">
+              <i class="fas fa-circle"></i> Ready to Record
+            </span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-file-audio"></i> Audio File Upload</h3>
+          </div>
+          <div class="file-input-wrapper">
+            <input type="file" id="fileInput" accept="audio/*" />
+            <button id="uploadBtn">
+              <i class="fas fa-cloud-upload-alt"></i> Upload & Transcribe
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-column">
+        <div class="card result-card">
+          <div class="card-header">
+            <h3><i class="fas fa-spell-check"></i> Live Transcription</h3>
+          </div>
+          <div id="segments">
+            <div class="transcription-text">
+              <i class="far fa-comment-dots"></i> Waiting for audio input...
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Plus Jakarta Sans font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <!-- JetBrains Mono for JSON -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <script src="/static/recorder.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+Flask==2.3.2
+groq==0.0.0  # replace with the actual groq SDK version if known, or pip install groq if listed in docs
+werkzeug==2.3.7
+python-dotenv
