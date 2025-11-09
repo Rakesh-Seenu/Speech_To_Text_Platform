@@ -2,8 +2,10 @@
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0%2B-green)](https://flask.palletsprojects.com/)
-[![Groq](https://img.shields.io/badge/Groq-AI-purple)](https://groq.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+## Demo
+https://github.com/user-attachments/assets/1f9ff73e-77cf-466f-9c52-ca5e393e68a2
 
 ## 🎯 Problem Statement
 
@@ -15,7 +17,7 @@ In today's fast-paced digital world, professionals face significant challenges i
 
 ## 💡 Solution
 
-VoiceScript AI is an innovative speech-to-text platform that leverages Groq's cutting-edge AI technology to provide:
+VoiceScript AI is an innovative speech-to-text platform that provide:
 - Instant, highly accurate transcriptions
 - Real-time voice-to-text conversion
 - Support for multiple audio formats
@@ -43,7 +45,7 @@ VoiceScript AI is an innovative speech-to-text platform that leverages Groq's cu
 - **Backend**:
   - Python 3.9+
   - Flask Web Framework
-  - Groq AI API
+  - API
   - WebSocket for Real-time Communication
   
 - **Features**:
@@ -56,7 +58,7 @@ VoiceScript AI is an innovative speech-to-text platform that leverages Groq's cu
 ## 📋 Prerequisites
 
 - Python 3.9 or higher
-- Groq API key ([Get one here](https://console.groq.com/))
+- API key ([Get one here](https://console.groq.com/))
 - Modern web browser
 - Internet connection
 
@@ -93,7 +95,7 @@ VoiceScript AI is an innovative speech-to-text platform that leverages Groq's cu
 
 ## 🎬 Usage
 
-1. Enter your Groq API key in the configuration section
+1. Enter your API key(Groq preferred) in the configuration section
 2. Choose between:
    - Live voice recording
    - Audio file upload
@@ -120,14 +122,7 @@ VoiceScript AI is an innovative speech-to-text platform that leverages Groq's cu
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## 📬 Contact
-
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-
-Project Link: [https://github.com/yourusername/voicescript-ai](https://github.com/yourusername/voicescript-ai)
-
 ## 🙏 Acknowledgments
 
 - [Groq AI](https://groq.com/) for their powerful AI API
 - [Flask](https://flask.palletsprojects.com/) for the web framework
-- [Font Awesome](https://fontawesome.com/) for the icons
