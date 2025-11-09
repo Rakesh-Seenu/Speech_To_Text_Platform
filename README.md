@@ -9,19 +9,16 @@
 ```mermaid
 sequenceDiagram
     actor User
-    participant Frontend as index.html/recorder.js
+    participant Frontend as index.html / recorder.js
     participant Flask as app.py
-    participant API
-    participant FileProcessor
-    participant text Generator
+    participant GroqWhisper as Groq Whisper API
 
-    User ->> Frontend: Upload/Record Audio
-    Frontend ->> Flask: POST /transcribe (audio file)
-    Flask ->> FileProcessor: Handle File, Extract Audio/Text
-    Flask ->> API: Whisper transcription (LLM)
-    API -->> Flask: Transcribed Text
-    Flask -->> Frontend: Return Text 
-    Frontend -->> User: Show Transcription
+    User ->> Frontend: Upload or record audio
+    Frontend ->> Flask: POST /transcribe with file
+    Flask ->> GroqWhisper: Transcribes file using API key
+    GroqWhisper -->> Flask: Returns transcription text + metadata
+    Flask -->> Frontend: Returns JSON (transcription + metadata)
+    Frontend -->> User: Renders transcribed text and metadata
 ```
 
 ## Demo
