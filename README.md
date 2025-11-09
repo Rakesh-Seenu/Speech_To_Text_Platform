@@ -18,10 +18,8 @@ sequenceDiagram
     User ->> Frontend: Upload/Record Audio
     Frontend ->> Flask: POST /transcribe (audio file)
     Flask ->> FileProcessor: Handle File, Extract Audio/Text
-    FileProcessor -->> Flask: Text/Transcription
     Flask ->> API: Whisper transcription (LLM)
-    GroqAPI -->> Flask: Transcribed Text
-    Flask ->> Flask: Text Generator
+    API -->> Flask: Transcribed Text
     Flask -->> Frontend: Return Text 
     Frontend -->> User: Show Transcription
 ```
